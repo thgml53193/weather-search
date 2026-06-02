@@ -163,14 +163,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
 }
 ul {
   width: 50%;
   display: flex;
-  justify-content: center;
   gap: 1.5rem;
-  padding-top: 10px;
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;
 }
 li {
   padding: 10px;

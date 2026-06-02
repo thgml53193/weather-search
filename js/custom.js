@@ -5,6 +5,7 @@ $(function () {
   let iconEls = document.querySelectorAll("li img");
   let timeEls = document.querySelectorAll("li p");
   let tempEls = document.querySelectorAll("li .temp");
+  let regionBtns = document.querySelectorAll(".region-btns button");
 
   const ctx = document.getElementById("weatherChart");
 
@@ -16,7 +17,11 @@ $(function () {
   getLocation();
 
   function getLocation() {
-    navigator.geolocation.getCurrentPosition(success);
+    // 위치 허용 시 success 함수 실행 / 차단되거나 에러 발생 시 기본값으로 '서울' 날씨 출력
+    navigator.geolocation.getCurrentPosition(success, () => {
+      weather("Seoul");
+      matchActiveButton("Seoul");
+    });
   }
 
   async function success(position) {
@@ -28,6 +33,9 @@ $(function () {
     );
     let data = await response.json();
     render(data);
+
+    // 처음 GPS로 가져온 도시 이름에 맞춰 버튼에 자동으로 불 켜기
+    matchActiveButton(data.city.name);
   }
 
   // 2. 도시 검색 및 지역 버튼 클릭용 weather 함수 정의
@@ -44,90 +52,127 @@ $(function () {
     }
   }
 
-  // ✨ [핵심 추가] HTML의 onclick="weather(...)" 버튼들이 이 함수를 찾을 수 있도록 전역(window)에 등록합니다.
+  // HTML의 onclick 속성 대응용 유지
   window.weather = weather;
 
-  // 버튼을 클릭했을 때
+  // 3. 지역 버튼 클릭 이벤트 (컬러 체인지 및 날씨 연동)
+  regionBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      // 모든 버튼에서 active 클래스를 제거해서 불을 끕니다.
+      regionBtns.forEach((b) => b.classList.remove("active"));
+
+      // 방금 내가 클릭한 버튼에만 active 클래스를 붙여서 노란 불을 켭니다.
+      this.classList.add("active");
+
+      // 버튼에 적힌 텍스트를 읽어와 영어 도시명으로 변환 후 매칭합니다.
+      let cityName = this.textContent.trim();
+      if (cityName === "서울") weather("Seoul");
+      else if (cityName === "부산") weather("Busan");
+      else if (cityName === "인천") weather("Incheon");
+      else if (cityName === "제주") weather("Jeju");
+    });
+  });
+
+  // 4. 검색창 우측 SEARCH 버튼을 클릭했을 때
   button.addEventListener("click", () => {
     let city = input.value;
     if (city.trim() !== "") {
       weather(city);
       input.value = "";
+
+      // 직접 검색 시 기존 지역 버튼들의 선택 불을 다 꺼줍니다.
+      regionBtns.forEach((b) => b.classList.remove("active"));
     }
   });
 
-  // 검색창에서 엔터쳤을 때
+  // 5. 검색창에서 엔터 키를 쳤을 때
   input.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
       let city = input.value;
       if (city.trim() !== "") {
         weather(city);
         input.value = "";
+
+        // 직접 검색 시 기존 지역 버튼들의 선택 불을 다 꺼줍니다.
+        regionBtns.forEach((b) => b.classList.remove("active"));
       }
     }
   });
+  // 6. 받아온 도시명(영어)을 판단해 해당 버튼에 불을 켜주는 함수
+  function matchActiveButton(apiCityName) {
+    regionBtns.forEach((b) => b.classList.remove("active")); // 일단 모두 끄기
 
-  // 화면에 날씨 정보를 나타냄
+    if (apiCityName.includes("Seoul")) {
+      regionBtns.forEach((b) => {
+        if (b.textContent.trim() === "서울") b.classList.add("active");
+      });
+    } else if (apiCityName.includes("Busan")) {
+      regionBtns.forEach((b) => {
+        if (b.textContent.trim() === "부산") b.classList.add("active");
+      });
+    } else if (apiCityName.includes("Incheon")) {
+      regionBtns.forEach((b) => {
+        if (b.textContent.trim() === "인천") b.classList.add("active");
+      });
+    } else if (apiCityName.includes("Jeju")) {
+      regionBtns.forEach((b) => {
+        if (b.textContent.trim() === "제주") b.classList.add("active");
+      });
+    } else {
+      // 4개 외의 타 지역(부천, 대구 등)이거나 에러 시 기본값으로 '서울' 버튼에 불을 켭니다.
+      regionBtns.forEach((b) => {
+        if (b.textContent.trim() === "서울") b.classList.add("active");
+      });
+    }
+  }
+
+  // 7. 화면에 날씨 정보를 나타냄
   function render(data) {
     place.textContent = data.city.name;
 
-    // 1. 상단 섹션(이미지가 바뀔 대상)을 선택합니다.
     let topSection = document.querySelector(".top-section");
-
-    // 2. 3시간 단위 리스트 중 가장 첫 번째(현재 시각과 가장 가까운 예보) 날씨를 읽어옵니다.
     let currentWeather = data.list[0].weather[0].main.toLowerCase();
     console.log("현재 날씨 기준:", currentWeather);
 
-    // 3. 날씨에 맞춰 상단 배경 이미지 주소를 실시간으로 변경합니다.
     if (currentWeather === "clear") {
       topSection.style.backgroundImage = "url('img/clear.jpg')";
     } else if (currentWeather === "clouds") {
-      // ☁️ 흐림: 안개가 은은하게 끼거나 숲 위에 흐린 구름이 덮인 차분한 사진
       topSection.style.backgroundImage = "url('img/clouds.jpg')";
     } else if (currentWeather === "rain") {
       topSection.style.backgroundImage = "url('img/rainy.jpg')";
     } else if (currentWeather === "snow") {
-      // ❄️ 눈: 침엽수림 위에 하얀 눈이 소복하게 쌓인 고즈넉한 겨울 사진
       topSection.style.backgroundImage = "url('img/snow.jpg')";
     } else {
-      // 혹시 모를 기타 날씨(안개 등)가 오면 기본 맑음(숲) 이미지로 대처!
       topSection.style.backgroundImage = "url('img/clear.jpg')";
     }
 
     let temps = [];
     let labels = [];
 
-    // HTML 카드 7개 채우기 반복문
     for (let i = 0; i < tempEls.length; i++) {
-      // 온도
       let temp = Math.round(data.list[i].main.temp);
       tempEls[i].textContent = `${temp}℃`;
 
-      // 아이콘
       let icon = data.list[i].weather[0].icon;
       let iconUrl = `https://openweathermap.org/img/wn/${icon}.png`;
       iconEls[i].src = iconUrl;
 
-      // 시간
       let label = data.list[i].dt_txt.slice(11, 16);
       timeEls[i].textContent = label;
 
-      // 배열에 차곡차곡 쌓기
       temps.push(temp);
       labels.push(label);
     }
 
-    // 데이터 7개가 다 모인 후, drawChart를 딱 한 번만 호출!
     drawChart(temps, labels);
   }
 
-  // 차트를 그리고 파괴하는 함수
+  // 8. 차트를 그리고 파괴하는 함수
   function drawChart(temps, labels) {
     if (chart) {
-      chart.destroy(); // 기존 차트가 있으면 완전히 지우기
+      chart.destroy();
     }
 
-    // 새 차트 그리기
     chart = new Chart(ctx, {
       type: "line",
       data: {
@@ -136,15 +181,15 @@ $(function () {
           {
             label: "시간별온도",
             data: temps,
-            borderWidth: 2, // 선 두께를 살짝 올려 가시성을 높였습니다.
-            borderColor: "#E1341E", // 포인트 메인 컬러 (레드오렌지)
-            backgroundColor: "rgba(225, 52, 30, 0.05)", // 부드러운 배경색 채우기
-            tension: 0.2, // 선을 살짝 둥글게 만들어 감각적인 느낌 추가
+            borderWidth: 2,
+            borderColor: "#E1341E",
+            backgroundColor: "rgba(225, 52, 30, 0.05)",
+            tension: 0.2,
           },
         ],
       },
       options: {
-        responsive: true, // 반응형 유지 (부모 container 박스로 크기 조절 추천)
+        responsive: true,
         scales: {
           y: {
             min: 10,
@@ -155,7 +200,7 @@ $(function () {
             title: {
               display: true,
               text: "온도",
-              color: "#E1341E", // 타이틀 컬러 통일
+              color: "#E1341E",
               font: { size: 13, weight: "bold" },
             },
           },

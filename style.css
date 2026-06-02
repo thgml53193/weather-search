@@ -55,7 +55,7 @@ body {
 .top-section {
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-    url("img/sunny.jpg");
+    url("img/clear.jpg");
 }
 .title-glass-box {
   width: 500px;
@@ -103,9 +103,9 @@ body {
 #searchInput:focus {
   box-shadow: none;
 }
-#searchButton {
+#searchBtn {
   width: 100px;
-  background-color: #e4979c;
+  background-color: #e8d56a;
   border: none;
   border-radius: 0.5rem;
   font-size: 1.4rem;
@@ -115,44 +115,37 @@ body {
   transition: all 0.3s ease;
 }
 /* 호버했을 때 색상 바꾸기 */
-#searchButton:hover {
-  background-color: #ffb7bc;
-  box-shadow: 0 0 15px rgba(255, 183, 188, 0.7);
-  /* color: #fff; */
+#searchBtn:hover {
+  background-color: #d97d41;
+  box-shadow: 0 8px 20px rgba(217, 125, 65, 0.3);
+  color: #fff;
 }
 
 /* 지역버튼 */
 .region-btns {
-  width: 100%;
+  width: 335px;
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
 }
 .region-btns button {
-  width: 50px;
+  flex: 1;
   padding: 0.6rem;
   font-size: 1.2rem;
+  border: none; /* 부트스트랩 기본 테두리 제거 ✨ */
+  background-color: rgba(255, 255, 255, 0.8); /* 평소엔 깔끔한 반투명 흰색 ✨ */
   border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.top-section.is-sunny {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-    url("img/af47e157a2c3d706010d1a5e1412fe94.jpg");
+.region-btns button:hover {
+  background-color: #fff;
 }
-
-/* 비 오는 날 선택자 */
-.top-section.is-rainy {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    url("images/rainy_woods.jpg");
-}
-
-/* 눈 오는 날 선택자 */
-.top-section.is-snowy {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-    url("images/snowy_forest.jpg");
+.region-btns button.active {
+  background-color: #e8d56a !important;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(232, 213, 106, 0.4);
 }
 
 /* bottom-section */
@@ -163,9 +156,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 5rem;
 }
 ul {
-  width: 50%;
   display: flex;
   gap: 1.5rem;
   margin-bottom: 0 !important;
@@ -174,7 +167,7 @@ ul {
 li {
   padding: 10px;
   background-color: #fff;
-  /* box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 0.5rem;
 }
@@ -182,6 +175,8 @@ li {
   width: 500px;
   height: 300px;
   background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 .chart-container canvas {
   width: 100% !important;

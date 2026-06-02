@@ -1,0 +1,190 @@
+@font-face {
+  font-family: "Pretendard";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FounderYooGeonWook";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRetrosansOTF.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ul {
+  list-style: none;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+img {
+  display: block;
+}
+html {
+  font-size: 62.5%; /* 16px * 0.625 = 10px */
+}
+body {
+  font-family: "Pretendard";
+  overflow-x: hidden;
+  color: #2c2c2c;
+}
+/* wrap */
+.wrap {
+  width: 100%;
+  height: 100vh;
+}
+/* top-section */
+.top-section {
+  width: 100%;
+  height: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.top-section {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+    url("img/sunny.jpg");
+}
+.title-glass-box {
+  width: 500px;
+  height: 90%;
+  padding: 2.5rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.25); /* 유리 테두리 효과 추가 */
+  border-radius: 1.2rem;
+}
+/* 메인 타이틀 */
+.main-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  color: #fff;
+}
+.main-title h2 {
+  font-family: "FounderYooGeonWook";
+  font-size: 5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.main-title h3 {
+  font-size: 1.7rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.main-title p {
+  font-size: 1.4rem;
+}
+/* 검색창 */
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+#searchInput {
+  width: 350px;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1.6rem;
+  border-radius: 0.5rem;
+}
+#searchInput:focus {
+  box-shadow: none;
+}
+#searchButton {
+  width: 100px;
+  background-color: #e4979c;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  padding: 0.9rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+/* 호버했을 때 색상 바꾸기 */
+#searchButton:hover {
+  background-color: #ffb7bc;
+  box-shadow: 0 0 15px rgba(255, 183, 188, 0.7);
+  /* color: #fff; */
+}
+
+/* 지역버튼 */
+.region-btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.region-btns button {
+  width: 50px;
+  padding: 0.6rem;
+  font-size: 1.2rem;
+  border-radius: 0.5rem;
+}
+.top-section.is-sunny {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+    url("img/af47e157a2c3d706010d1a5e1412fe94.jpg");
+}
+
+/* 비 오는 날 선택자 */
+.top-section.is-rainy {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url("images/rainy_woods.jpg");
+}
+
+/* 눈 오는 날 선택자 */
+.top-section.is-snowy {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+    url("images/snowy_forest.jpg");
+}
+
+/* bottom-section */
+.bottom-section {
+  width: 100%;
+  height: 45%;
+  background-color: #e8d56a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+ul {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-top: 10px;
+}
+li {
+  padding: 10px;
+  background-color: #fff;
+  /* box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); */
+  text-align: center;
+  border-radius: 0.5rem;
+}
+.chart-container {
+  width: 500px;
+  height: 300px;
+  background-color: #fff;
+}
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

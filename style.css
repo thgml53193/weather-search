@@ -51,6 +51,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  position: relative;
 }
 .top-section {
   background-image:
@@ -146,6 +147,18 @@ body {
   background-color: #e8d56a !important;
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(232, 213, 106, 0.4);
+}
+.weather-text-wrap {
+}
+.weather-text {
+  font-size: 7vw;
+  font-weight: bold;
+  color: #e8d56a;
+  line-height: 0.7;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 /* bottom-section */

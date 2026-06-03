@@ -148,16 +148,15 @@ body {
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(232, 213, 106, 0.4);
 }
-.weather-text-wrap {
-}
 .weather-text {
   font-size: 7vw;
   font-weight: bold;
   color: #e8d56a;
   line-height: 0.7;
+  letter-spacing: -0.7rem;
   margin: 0;
   position: absolute;
-  right: 0;
+  right: 2rem;
   bottom: 0;
 }
 
